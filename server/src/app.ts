@@ -28,6 +28,4 @@ app.post("/api/students", (req, res) => {
   });
 });
 
-
-
 export default app;
