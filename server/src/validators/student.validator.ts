@@ -1,11 +1,12 @@
-export function validateStudent(name: unknown, age: unknown): string | null {
-    if (typeof name !== "string" || name.trim() === "") {
-        return "Student name is required";
-    }
+import { z } from "zod";
 
-    if (typeof age !== "number" || age < 1 || age > 120) {
-        return "Age must be a valid number";
-    }
 
-    return null;
+
+export const studentSchema = z.object({
+  name: z.string().trim().min(1, "Student name is required"),
+  age: z.number().int().min(1).max(120),
+});
+
+export function validateStudent(data: unknown) {
+  return studentSchema.safeParse(data);
 }

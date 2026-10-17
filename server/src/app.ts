@@ -8,21 +8,19 @@ import { validateStudent } from "./validators/student.validator.js";
 app.use(express.json());
 
 app.post("/api/students", (req, res) => {
-  const { name, age } = req.body ?? {};
+  const result = validateStudent(req.body);
 
-  const error = validateStudent(name, age);
-
-  if (error) {
-    res.status(400).json({ error });
+  if (!result.success) {
+    res.status(400).json({
+      error: "Invalid student data",
+      details: result.error.issues,
+    });
     return;
   }
 
   res.status(201).json({
     message: "Student data accepted",
-    student: {
-      name: (name as string).trim(),
-      age: age as number,
-    },
+    student: result.data,
   });
 });
 
