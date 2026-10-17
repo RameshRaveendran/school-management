@@ -2,29 +2,27 @@ import express from "express";
 
 const app = express();
 
+import { validateStudent } from "./validators/student.validator.js";
+
 // middleware
 app.use(express.json());
 
 app.post("/api/students", (req, res) => {
   const { name, age } = req.body ?? {};
 
-  if (typeof name !== "string" || name.trim() === "") {
-    res.status(400).json({
-      error: "Student name is required",
-    });
-    return;
-  }
+  const error = validateStudent(name, age);
 
-  if (typeof age !== "number" || age < 1 || age > 120) {
-    res.status(400).json({
-      error: "Age must be a valid number",
-    });
+  if (error) {
+    res.status(400).json({ error });
     return;
   }
 
   res.status(201).json({
     message: "Student data accepted",
-    student: { name: name.trim(), age },
+    student: {
+      name: (name as string).trim(),
+      age: age as number,
+    },
   });
 });
 
