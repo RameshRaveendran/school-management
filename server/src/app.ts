@@ -1,27 +1,19 @@
 import express from "express";
+import { validateStudent } from "./validators/student.validator.js";
+import { prisma } from "./lib/prisma.js";
 
 const app = express();
 
-import { validateStudent } from "./validators/student.validator.js";
-
-// middleware
 app.use(express.json());
 
 app.get("/api/students", (req, res) => {
   const { name, age } = req.query;
 
-
-  res.json({
-    name,
-    age
-  });
+  res.json({ name, age });
 });
 
-app.post("/api/students", (req, res) => {
-
+app.post("/api/students", async (req, res, next) => {
   const result = validateStudent(req.body);
-      console.log(req.body)
-
 
   if (!result.success) {
     res.status(400).json({
@@ -31,10 +23,18 @@ app.post("/api/students", (req, res) => {
     return;
   }
 
-  res.status(201).json({
-    message: "Student data accepted",
-    student: result.data,
-  });
+  try {
+    const student = await prisma.student.create({
+      data: result.data,
+    });
+
+    res.status(201).json({
+      message: "Student created successfully",
+      student,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 export default app;
