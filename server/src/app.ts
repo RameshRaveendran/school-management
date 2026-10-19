@@ -7,8 +7,21 @@ import { validateStudent } from "./validators/student.validator.js";
 // middleware
 app.use(express.json());
 
+app.get("/api/students", (req, res) => {
+  const { name, age } = req.query;
+
+
+  res.json({
+    name,
+    age
+  });
+});
+
 app.post("/api/students", (req, res) => {
+
   const result = validateStudent(req.body);
+      console.log(req.body)
+
 
   if (!result.success) {
     res.status(400).json({
