@@ -80,4 +80,40 @@ app.post("/api/students", async (req, res, next) => {
   }
 });
 
+//patch route
+app.patch("/api/students/:id", async (req, res, next) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({
+      error: "Student ID must be a positive integer",
+    });
+    return;
+  }
+
+  const result = validateStudentUpdate(req.body);
+
+  if (!result.success) {
+    res.status(400).json({
+      error: "Invalid student data",
+      details: result.error.issues,
+    });
+    return;
+  }
+
+  try {
+    const student = await prisma.student.update({
+      where: { id },
+      data: result.data,
+    });
+
+    res.status(200).json({
+      message: "Student updated successfully",
+      student,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
 export default app;
