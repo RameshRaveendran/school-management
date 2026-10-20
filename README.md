@@ -40,4 +40,8 @@ Incoming student data is validated before being passed to Prisma for database op
 3. Improve error handling and validation responses.
 4. Expand the application with additional school management modules.
 
+<<<<<<< HEAD
 **Project Status:** Backend development in progress. Student creation and database persistence are working successfully.
+=======
+**Project Status:** Backend development in progress. Student creation and database persistence are working successfully.
+>>>>>>> 485f318221a64233b85d8c44ce67730d755b1702
