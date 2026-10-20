@@ -7,7 +7,8 @@ const app = express();
 app.use(express.json());
 
 // get all students
-app.get("/api/students", async (_req, res, next) => {
+app.get("/api/students", async (req, res, next) => {
+
   try {
     const students = await prisma.student.findMany();
 
@@ -48,6 +49,9 @@ app.get("/api/students/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+//get students by name 
+
 
 
 //post method for save the students
