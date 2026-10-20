@@ -26,7 +26,7 @@ app.get("/api/students/:id", async (req, res, next) => {
 
   if (!Number.isInteger(id) || id <= 0) {
     res.status(400).json({
-      error: "Student ID must be a positive Value",
+      error: "Student ID must be a positive Number",
     });
     return;
   }
