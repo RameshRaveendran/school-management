@@ -1,5 +1,8 @@
 import express from "express";
-import { validateStudent } from "./validators/student.validator.js";
+import {
+  validateStudent,
+  validateStudentUpdate,
+} from "./validators/student.validator.js";
 import { prisma } from "./lib/prisma.js";
 
 const app = express();
@@ -8,7 +11,6 @@ app.use(express.json());
 
 // get all students
 app.get("/api/students", async (req, res, next) => {
-
   try {
     const students = await prisma.student.findMany();
 
@@ -21,7 +23,7 @@ app.get("/api/students", async (req, res, next) => {
   }
 });
 
-//get students by ID 
+//get students by ID
 app.get("/api/students/:id", async (req, res, next) => {
   const id = Number(req.params.id);
 
@@ -50,9 +52,7 @@ app.get("/api/students/:id", async (req, res, next) => {
   }
 });
 
-//get students by name 
-
-
+//get students by name
 
 //post method for save the students
 app.post("/api/students", async (req, res, next) => {
