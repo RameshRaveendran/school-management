@@ -20,6 +20,35 @@ app.get("/api/students", async (_req, res, next) => {
   }
 });
 
+//get students by ID 
+app.get("/api/students/:id", async (req, res, next) => {
+  const id = Number(req.params.id);
+
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({
+      error: "Student ID must be a positive Value",
+    });
+    return;
+  }
+
+  try {
+    const student = await prisma.student.findUnique({
+      where: { id },
+    });
+
+    if (!student) {
+      res.status(404).json({
+        error: "No Students found in the given ID number!",
+      });
+      return;
+    }
+
+    res.status(200).json({ student });
+  } catch (error) {
+    next(error);
+  }
+});
+
 
 //post method for save the students
 app.post("/api/students", async (req, res, next) => {
