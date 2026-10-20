@@ -6,12 +6,22 @@ const app = express();
 
 app.use(express.json());
 
-app.get("/api/students", (req, res) => {
-  const { name, age } = req.query;
+// get all students
+app.get("/api/students", async (_req, res, next) => {
+  try {
+    const students = await prisma.student.findMany();
 
-  res.json({ name, age });
+    res.status(200).json({
+      count: students.length,
+      students,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
+
+//post method for save the students
 app.post("/api/students", async (req, res, next) => {
   const result = validateStudent(req.body);
 
