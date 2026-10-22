@@ -116,4 +116,7 @@ app.patch("/api/students/:id", async (req, res, next) => {
   }
 });
 
+// delete user 
+
+
 export default app;
