@@ -5,7 +5,11 @@ import {
 } from "./validators/student.validator.js";
 import { prisma } from "./lib/prisma.js";
 import { errorHandler } from "./middleware/errorHandler.js";
-import { createStudent } from "./services/student.service.js";
+import {
+  createStudent,
+  getAllStudents,
+  getStudentById,
+} from "./services/student.service.js";
 
 const app = express();
 
@@ -14,7 +18,7 @@ app.use(express.json());
 // get all students
 app.get("/api/students", async (req, res, next) => {
   try {
-    const students = await prisma.student.findMany();
+    const students = await getAllStudents();
 
     res.status(200).json({
       count: students.length,
