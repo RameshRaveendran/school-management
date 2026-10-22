@@ -10,9 +10,9 @@ export const errorHandler: ErrorRequestHandler = (error, _req, res, _next) => {
       error: "Student not found",
     });
     return;
-  }
+}
+console.error(error);
 
-  console.error(error);
 
   res.status(500).json({
     error: "Internal server error",
