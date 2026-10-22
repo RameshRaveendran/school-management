@@ -4,6 +4,7 @@ import {
   validateStudentUpdate,
 } from "./validators/student.validator.js";
 import { prisma } from "./lib/prisma.js";
+import { errorHandler } from "./middleware/errorHandler.js";
 
 const app = express();
 
@@ -140,5 +141,7 @@ app.delete("/api/students/:id", async (req, res, next) => {
     next(error);
   }
 });
+
+app.use(errorHandler);
 
 export default app;
