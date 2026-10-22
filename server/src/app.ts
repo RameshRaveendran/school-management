@@ -116,7 +116,7 @@ app.patch("/api/students/:id", async (req, res, next) => {
   }
 });
 
-// delete user 
+// delete user done
 app.delete("/api/students/:id", async (req, res, next) => {
   const id = Number(req.params.id);
 
