@@ -41,9 +41,7 @@ app.get("/api/students/:id", async (req, res, next) => {
   }
 
   try {
-    const student = await prisma.student.findUnique({
-      where: { id },
-    });
+    const student = await getStudentById(id);
 
     if (!student) {
       res.status(404).json({
