@@ -5,3 +5,13 @@ export function createStudent(data: { name: string; age: number }) {
     data,
   });
 }
+
+export function getAllStudents() {
+  return prisma.student.findMany();
+}
+
+export function getStudentById(id: number) {
+  return prisma.student.findUnique({
+    where: { id },
+  });
+}
