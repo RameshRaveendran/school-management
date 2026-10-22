@@ -5,6 +5,7 @@ import {
 } from "./validators/student.validator.js";
 import { prisma } from "./lib/prisma.js";
 import { errorHandler } from "./middleware/errorHandler.js";
+import { createStudent } from "./services/student.service.js";
 
 const app = express();
 
@@ -68,9 +69,7 @@ app.post("/api/students", async (req, res, next) => {
   }
 
   try {
-    const student = await prisma.student.create({
-      data: result.data,
-    });
+    const student = await createStudent(result.data);
 
     res.status(201).json({
       message: "Student created successfully",
