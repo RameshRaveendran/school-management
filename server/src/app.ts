@@ -117,6 +117,28 @@ app.patch("/api/students/:id", async (req, res, next) => {
 });
 
 // delete user 
+app.delete("/api/students/:id", async (req, res, next) => {
+  const id = Number(req.params.id);
 
+  if (!Number.isInteger(id) || id <= 0) {
+    res.status(400).json({
+      error: "Student ID must be a positive integer",
+    });
+    return;
+  }
+
+  try {
+    const student = await prisma.student.delete({
+      where: { id },
+    });
+
+    res.status(200).json({
+      message: "Student deleted successfully",
+      student,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
 
 export default app;
